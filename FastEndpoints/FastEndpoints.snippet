@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>scaffolds an endpoint without a request dto</Title>
+      <Shortcut>epnoreq</Shortcut>
+      <Author>FastEndpoints</Author>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Endpoint</ID>
+          <ToolTip>Enter a name for your endpoint...</ToolTip>
+          <Default>Endpoint</Default>
+        </Literal>
+        <Literal>
+          <ID>Verb</ID>
+          <ToolTip>Enter the http verb...</ToolTip>
+          <Default>Get</Default>
+        </Literal>
+        <Literal>
+          <ID>Route</ID>
+          <ToolTip>Enter the route pattern...</ToolTip>
+          <Default>route-pattern</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[public class $Endpoint$ : EndpointWithoutRequest
+{
+    public override void Configure()
+    {
+        $Verb$("$Route$");
+        AllowAnonymous();
+    }
+
+    public override async Task HandleAsync(CancellationToken c)
+    {
+        $end$
+    }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>scaffolds an endpoint without a request dto but with a response dto</Title>
+      <Shortcut>epres</Shortcut>
+      <Author>FastEndpoints</Author>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Endpoint</ID>
+          <ToolTip>Enter a name for your endpoint...</ToolTip>
+          <Default>Endpoint</Default>
+        </Literal>
+        <Literal>
+          <ID>Response</ID>
+          <ToolTip>Enter the type of your response dto...</ToolTip>
+          <Default>Response</Default>
+        </Literal>
+        <Literal>
+          <ID>Verb</ID>
+          <ToolTip>Enter the http verb...</ToolTip>
+          <Default>Get</Default>
+        </Literal>
+        <Literal>
+          <ID>Route</ID>
+          <ToolTip>Enter the route pattern...</ToolTip>
+          <Default>route-pattern</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[public class $Endpoint$ : EndpointWithoutRequest<$Response$>
+{
+    public override void Configure()
+    {
+        $Verb$("$Route$");
+        AllowAnonymous();
+    }
+
+    public override async Task HandleAsync(CancellationToken c)
+    {
+        $end$
+    }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>scaffolds an endpoint with only a request dto</Title>
+      <Shortcut>epreq</Shortcut>
+      <Author>FastEndpoints</Author>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Endpoint</ID>
+          <ToolTip>Enter a name for your endpoint...</ToolTip>
+          <Default>Endpoint</Default>
+        </Literal>
+        <Literal>
+          <ID>Request</ID>
+          <ToolTip>Enter a the type of your requet dto...</ToolTip>
+          <Default>Request</Default>
+        </Literal>
+        <Literal>
+          <ID>Verb</ID>
+          <ToolTip>Enter the http verb...</ToolTip>
+          <Default>Get</Default>
+        </Literal>
+        <Literal>
+          <ID>Route</ID>
+          <ToolTip>Enter the route pattern...</ToolTip>
+          <Default>route-pattern</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[public class $Endpoint$ : Endpoint<$Request$>
+{
+    public override void Configure()
+    {
+        $Verb$("$Route$");
+        AllowAnonymous();
+    }
+
+    public override async Task HandleAsync($Request$ r, CancellationToken c)
+    {
+        $end$
+    }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>scaffolds an endpoint with request and response dtos</Title>
+      <Shortcut>epreqres</Shortcut>
+      <Author>FastEndpoints</Author>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Endpoint</ID>
+          <ToolTip>Enter a name for your endpoint...</ToolTip>
+          <Default>Endpoint</Default>
+        </Literal>
+        <Literal>
+          <ID>Request</ID>
+          <ToolTip>Enter a the type of your requet dto...</ToolTip>
+          <Default>Request</Default>
+        </Literal>
+        <Literal>
+          <ID>Response</ID>
+          <ToolTip>Enter a the type of your response dto...</ToolTip>
+          <Default>Response</Default>
+        </Literal>
+        <Literal>
+          <ID>Verb</ID>
+          <ToolTip>Enter the http verb...</ToolTip>
+          <Default>Get</Default>
+        </Literal>
+        <Literal>
+          <ID>Route</ID>
+          <ToolTip>Enter the route pattern...</ToolTip>
+          <Default>route-pattern</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[public class $Endpoint$ : Endpoint<$Request$, $Response$>
+{
+    public override void Configure()
+    {
+        $Verb$("$Route$");
+        AllowAnonymous();
+    }
+
+    public override async Task HandleAsync($Request$ r, CancellationToken c)
+    {
+        $end$
+    }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>scaffolds an endpoint validator for a given request dto</Title>
+      <Shortcut>epval</Shortcut>
+      <Author>FastEndpoints</Author>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Validator</ID>
+          <ToolTip>Enter a name for your validator...</ToolTip>
+          <Default>Validator</Default>
+        </Literal>
+        <Literal>
+          <ID>Request</ID>
+          <ToolTip>Enter the type of the request dto being validated...</ToolTip>
+          <Default>Request</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[public class $Validator$ : Validator<$Request$>
+{
+    public $Validator$()
+    {
+        $end$
+    }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>scaffolds an endpoint mapper class</Title>
+      <Shortcut>epmap</Shortcut>
+      <Author>FastEndpoints</Author>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Mapper</ID>
+          <ToolTip>Enter a name for your mapper...</ToolTip>
+          <Default>Mapper</Default>
+        </Literal>
+        <Literal>
+          <ID>Request</ID>
+          <ToolTip>Enter the type of the request dto...</ToolTip>
+          <Default>Request</Default>
+        </Literal>
+        <Literal>
+          <ID>Response</ID>
+          <ToolTip>Enter the type of the response dto...</ToolTip>
+          <Default>Response</Default>
+        </Literal>
+        <Literal>
+          <ID>Entity</ID>
+          <ToolTip>Enter the type of the entity being mapped...</ToolTip>
+          <Default>Entity</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[public class $Mapper$ : Mapper<$Request$, $Response$, $Entity$>
+{
+    public override object ToEntity($Request$ r)
+    {
+        $end$
+    }
+
+    public override $Response$ FromEntity($Entity$ e)
+    {
+
+    }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>scaffolds the complete set of classes for a full vertical slice</Title>
+      <Shortcut>epfull</Shortcut>
+      <Author>FastEndpoints</Author>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Endpoint</ID>
+          <ToolTip>Enter a name for your endpoint...</ToolTip>
+          <Default>Endpoint</Default>
+        </Literal>
+        <Literal>
+          <ID>Request</ID>
+          <ToolTip>Enter a the type of your requet dto...</ToolTip>
+          <Default>Request</Default>
+        </Literal>
+        <Literal>
+          <ID>Response</ID>
+          <ToolTip>Enter a the type of your response dto...</ToolTip>
+          <Default>Response</Default>
+        </Literal>
+        <Literal>
+          <ID>Verb</ID>
+          <ToolTip>Enter the http verb...</ToolTip>
+          <Default>Get</Default>
+        </Literal>
+        <Literal>
+          <ID>Route</ID>
+          <ToolTip>Enter the route pattern...</ToolTip>
+          <Default>route-pattern</Default>
+        </Literal>
+        <Literal>
+          <ID>Validator</ID>
+          <ToolTip>Enter a name for your validator...</ToolTip>
+          <Default>Validator</Default>
+        </Literal>
+        <Literal>
+          <ID>Mapper</ID>
+          <ToolTip>Enter a name for your mapper...</ToolTip>
+          <Default>Mapper</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[public class $Endpoint$ : Endpoint<$Request$, $Response$, $Mapper$>
+{
+    public override void Configure()
+    {
+        $Verb$("$Route$");
+        AllowAnonymous();
+    }
+
+    public override async Task HandleAsync($Request$ r, CancellationToken c)
+    {
+        $end$
+    }
+}
+
+public class $Request$
+{
+
+}
+
+public class $Response$
+{
+
+}
+
+public class Validator : Validator<$Request$>
+{
+    public Validator()
+    {
+
+    }
+}
+
+public class $Mapper$: Mapper<$Request$, $Response$, object>
+{
+    public override object ToEntity($Request$ r)
+    {
+
+    }
+
+    public override $Response$ FromEntity(object e)
+    {
+
+    }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+</CodeSnippets>
