@@ -3,7 +3,7 @@
     <CodeSnippet Format="1.0.0">
         <Header>
             <Title>endpoint without request</Title>
-            <Description>scaffolds an endpoint without a request dto</Description>
+            <Description>scaffolds an endpoint without a request nor response dto</Description>
             <Shortcut>epnoreq</Shortcut>
             <Author>FastEndpoints</Author>
         </Header>
@@ -414,6 +414,55 @@ public class $Response$
                 <![CDATA[public static class Data
 {
     $end$
+}]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>endpoint summary</Title>
+            <Description>scaffolds a summary class for a given endpoint and request dto</Description>
+            <Shortcut>epsum</Shortcut>
+            <Author>FastEndpoints</Author>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal>
+                    <ID>Summary</ID>
+                    <ToolTip>Enter a name for the summary class...</ToolTip>
+                    <Default>Summary</Default>
+                </Literal>
+                <Literal>
+                    <ID>Endpoint</ID>
+                    <ToolTip>Enter the name of your endpoint...</ToolTip>
+                    <Default>Endpoint</Default>
+                </Literal>
+                <Literal>
+                    <ID>Request</ID>
+                    <ToolTip>Enter the name of the request dto...</ToolTip>
+                    <Default>Request</Default>
+                </Literal>
+                <Literal>
+                    <ID>SummaryText</ID>
+                    <ToolTip>Enter the summary text...</ToolTip>
+                    <Default>Summary text goes here...</Default>
+                </Literal>
+                <Literal>
+                    <ID>DescriptionText</ID>
+                    <ToolTip>Enter the description text...</ToolTip>
+                    <Default>Description text goes here...</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp">
+                <![CDATA[public class $Summary$ : Summary<$Endpoint$, $Request$>
+{
+    public $Summary$()
+    {
+        Summary = "$SummaryText$";
+        Description = "$DescriptionText$";
+        $end$
+    }
 }]]>
             </Code>
         </Snippet>
