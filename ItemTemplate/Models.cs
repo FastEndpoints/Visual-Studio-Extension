@@ -1,11 +1,11 @@
 ﻿namespace $fileinputname$;
 
-public class Request
+sealed class Request
 {
 
 }
 
-public class Validator : Validator<Request>
+sealed class Validator : Validator<Request>
 {
     public Validator()
     {
@@ -13,7 +13,7 @@ public class Validator : Validator<Request>
     }
 }
 
-public class Response
+sealed class Response
 {
     public string Message => "This endpoint hasn't been implemented yet!";
 }

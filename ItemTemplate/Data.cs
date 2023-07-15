@@ -1,6 +1,6 @@
 ﻿namespace $fileinputname$;
 
-public static class Data
+static class Data
 {
     
 }
