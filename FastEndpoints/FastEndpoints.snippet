@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+
     <CodeSnippet Format="1.0.0">
         <Header>
             <Title>endpoint without request</Title>
@@ -635,8 +636,7 @@ sealed class $name$Handler : ICommandHandler<$name$, $name$Result>
                 </Literal>
             </Declarations>
             <Code Language="csharp">
-                <![CDATA[
-sealed class $name$ : IGlobalPreProcessor
+                <![CDATA[sealed class $name$ : IGlobalPreProcessor
 {
     public Task PreProcessAsync(object r, HttpContext ctx, List<ValidationFailure> fails, CancellationToken c)
     {
@@ -645,5 +645,175 @@ sealed class $name$ : IGlobalPreProcessor
 }]]>
             </Code>
         </Snippet>
+    </CodeSnippet>
+
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>test fixture + test base</Title>
+            <Description>scaffolds a test fixture and a base class for tests</Description>
+            <Shortcut>tstfixture</Shortcut>
+            <Author>FastEndpoints</Author>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal>
+                    <ID>name</ID>
+                    <ToolTip>Enter a name for the test fixture...</ToolTip>
+                    <Default>App</Default>
+                </Literal>
+                <Literal>
+                    <ID>client</ID>
+                    <ToolTip>Enter a name for the pre-configured client...</ToolTip>
+                    <Default>Guest</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp">
+                <![CDATA[using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Xunit;
+using Xunit.Abstractions;
+
+namespace Tests;
+
+public abstract class TestBase : IClassFixture<$name$Fixture>
+{
+    protected $name$Fixture $name$ { get; init; }
+
+    protected TestBase($name$Fixture fixture)
+    {
+        $name$ = fixture;
+    }
+}
+
+public sealed class $name$Fixture : IDisposable
+{
+    public HttpClient $client$Client { get; init; }
+
+    private static readonly WebApplicationFactory<Program> _factory = new();
+
+    private readonly IMessageSink _messageSink;
+
+    public $name$Fixture(IMessageSink messageSink)
+    {
+        _messageSink = messageSink;
+        $client$Client = CreateClient($end$);
+    }
+
+    public HttpClient CreateClient(Action<IServiceCollection>? serviceConfig = null, Action<HttpClient>? clientConfig = null)
+    {
+        var c = _factory.WithWebHostBuilder(b =>
+        {
+            if (serviceConfig is not null)
+                b.ConfigureTestServices(serviceConfig);
+            b.ConfigureLogging(c => c.AddXUnit(_messageSink));
+        }).CreateClient();
+        clientConfig?.Invoke(c);
+        return c;
+    }
+
+    public HttpMessageHandler CreateHttpMessageHandler()
+        => _factory.Server.CreateHandler();
+
+    public IServiceProvider GetServiceProvider()
+        => _factory.Services;
+
+    #region idisposable
+    private bool disposedValue;
+    private void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                $client$Client.Dispose();
+                // WARNING: do not dispose _factory
+            }
+            disposedValue = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+    #endregion
+}
+]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>test class</Title>
+            <Description>scaffolds a test class</Description>
+            <Shortcut>tstclass</Shortcut>
+            <Author>FastEndpoints</Author>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal>
+                    <ID>name</ID>
+                    <ToolTip>Enter the name of the test class...</ToolTip>
+                    <Default>My</Default>
+                </Literal>
+                <Literal>
+                    <ID>fixture</ID>
+                    <ToolTip>Enter the name of the test fixture...</ToolTip>
+                    <Default>App</Default>
+                </Literal>
+                <Literal>
+                    <ID>test_name</ID>
+                    <ToolTip>Enter a name for the test...</ToolTip>
+                    <Default>Name_Of_The_Test</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp">
+                <![CDATA[using Xunit;
+
+namespace Tests;
+
+public class $name$Tests : TestBase
+{
+    public $name$Tests($fixture$Fixture fixture) : base(fixture) { }
+
+    [Fact]
+    public async Task $test_name$()
+    {
+        $end$
+    }
+}]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>test method</Title>
+            <Description>scaffolds a test method</Description>
+            <Shortcut>tstmethod</Shortcut>
+            <Author>FastEndpoints</Author>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal>
+                    <ID>test_name</ID>
+                    <ToolTip>Enter a name for the test...</ToolTip>
+                    <Default>Name_Of_The_Test</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp">
+                <![CDATA[    [Fact]
+    public async Task $test_name$()
+    {
+        $end$
+    }]]>
+            </Code>
+        </Snippet>
     </CodeSnippet>    
+    
 </CodeSnippets>
