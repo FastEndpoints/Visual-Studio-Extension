@@ -668,10 +668,10 @@ sealed class $name$Handler : ICommandHandler<$name$, $name$Result>
                 </Literal>
             </Declarations>
             <Code Language="csharp">
-                <![CDATA[using Microsoft.AspNetCore.Hosting;
+                <![CDATA[#pragma warning disable CS8618
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;
@@ -688,61 +688,49 @@ public abstract class TestBase : IClassFixture<$name$Fixture>
     }
 }
 
-public sealed class $name$Fixture : IDisposable
+public sealed class $name$Fixture : WebApplicationFactory<Program>
 {
-    public HttpClient $client$Client { get; init; }
-
-    private static readonly WebApplicationFactory<Program> _factory = new();
+    public HttpClient $client$Client { get; private set; }
 
     private readonly IMessageSink _messageSink;
 
     public $name$Fixture(IMessageSink messageSink)
     {
         _messageSink = messageSink;
-        $client$Client = CreateClient($end$);
+        InitClients();
     }
 
-    public HttpClient CreateClient(Action<IServiceCollection>? serviceConfig = null, Action<HttpClient>? clientConfig = null)
+    protected override void ConfigureWebHost(IWebHostBuilder b)
     {
-        var c = _factory.WithWebHostBuilder(b =>
+        b.ConfigureLogging(l => l.AddXUnit(_messageSink));
+        b.ConfigureTestServices(s =>
         {
-            if (serviceConfig is not null)
-                b.ConfigureTestServices(serviceConfig);
-            b.ConfigureLogging(c => c.AddXUnit(_messageSink));
-        }).CreateClient();
-        clientConfig?.Invoke(c);
-        return c;
+            $end$
+        });
+    }
+
+    private void InitClients()
+    {
+        $client$Client = CreateClient();
     }
 
     public HttpMessageHandler CreateHttpMessageHandler()
-        => _factory.Server.CreateHandler();
+        => Server.CreateHandler();
 
     public IServiceProvider GetServiceProvider()
-        => _factory.Services;
+        => Services;
 
-    #region idisposable
-    private bool disposedValue;
-    private void Dispose(bool disposing)
+    public override async ValueTask DisposeAsync()
     {
-        if (!disposedValue)
-        {
-            if (disposing)
-            {
-                $client$Client.Dispose();
-                // WARNING: do not dispose _factory
-            }
-            disposedValue = true;
-        }
-    }
+        // only dispose the clients of this instance
+        // do not dispose this instance itself
+        $client$Client.Dispose();
 
-    public void Dispose()
-    {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
+        // dispose the delegated factories of this instance
+        foreach (var f in Factories)
+            await f.DisposeAsync();
     }
-    #endregion
-}
-]]>
+}]]>
             </Code>
         </Snippet>
     </CodeSnippet>
