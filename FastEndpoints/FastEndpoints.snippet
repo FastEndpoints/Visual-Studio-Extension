@@ -649,8 +649,8 @@ sealed class $name$Handler : ICommandHandler<$name$, $name$Result>
 
     <CodeSnippet Format="1.0.0">
         <Header>
-            <Title>test fixture + test base</Title>
-            <Description>scaffolds a test fixture and a base class for tests</Description>
+            <Title>test fixture</Title>
+            <Description>scaffolds a test class fixture</Description>
             <Shortcut>tstfixture</Shortcut>
             <Author>FastEndpoints</Author>
         </Header>
@@ -661,74 +661,27 @@ sealed class $name$Handler : ICommandHandler<$name$, $name$Result>
                     <ToolTip>Enter a name for the test fixture...</ToolTip>
                     <Default>App</Default>
                 </Literal>
-                <Literal>
-                    <ID>client</ID>
-                    <ToolTip>Enter a name for the pre-configured client...</ToolTip>
-                    <Default>Guest</Default>
-                </Literal>
             </Declarations>
             <Code Language="csharp">
-                <![CDATA[#pragma warning disable CS8618
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Logging;
-using Xunit;
-using Xunit.Abstractions;
+                <![CDATA[namespace Tests;
 
-namespace Tests;
-
-public abstract class TestBase : IClassFixture<$name$Fixture>
+public class $name$Fixture : TestFixture<Program>
 {
-    protected $name$Fixture $name$ { get; init; }
+    public $name$Fixture(IMessageSink s) : base(s) { }
 
-    protected TestBase($name$Fixture fixture)
+    protected override Task SetupAsync()
     {
-        $name$ = fixture;
-    }
-}
-
-public sealed class $name$Fixture : WebApplicationFactory<Program>
-{
-    public HttpClient $client$Client { get; private set; }
-
-    private readonly IMessageSink _messageSink;
-
-    public $name$Fixture(IMessageSink messageSink)
-    {
-        _messageSink = messageSink;
-        InitClients();
+        $end$
     }
 
-    protected override void ConfigureWebHost(IWebHostBuilder b)
+    protected override void ConfigureServices(IServiceCollection s)
     {
-        b.ConfigureLogging(l => l.AddXUnit(_messageSink));
-        b.ConfigureTestServices(s =>
-        {
-            $end$
-        });
+
     }
 
-    private void InitClients()
+    protected override Task TearDownAsync()
     {
-        $client$Client = CreateClient();
-    }
 
-    public HttpMessageHandler CreateHttpMessageHandler()
-        => Server.CreateHandler();
-
-    public IServiceProvider GetServiceProvider()
-        => Services;
-
-    public override async ValueTask DisposeAsync()
-    {
-        // only dispose the clients of this instance
-        // do not dispose this instance itself
-        $client$Client.Dispose();
-
-        // dispose the delegated factories of this instance
-        foreach (var f in Factories)
-            await f.DisposeAsync();
     }
 }]]>
             </Code>
@@ -761,13 +714,11 @@ public sealed class $name$Fixture : WebApplicationFactory<Program>
                 </Literal>
             </Declarations>
             <Code Language="csharp">
-                <![CDATA[using Xunit;
+                <![CDATA[namespace Tests;
 
-namespace Tests;
-
-public class $name$Tests : TestBase
+public class $name$Tests : TestClass<$fixture$Fixture>
 {
-    public $name$Tests($fixture$Fixture fixture) : base(fixture) { }
+    public $name$Tests($fixture$Fixture f, ITestOutputHelper o) : base(f, o) { }
 
     [Fact]
     public async Task $test_name$()
