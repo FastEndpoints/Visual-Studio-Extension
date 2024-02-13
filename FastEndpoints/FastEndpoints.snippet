@@ -70,10 +70,7 @@
                 </Literal>
             </Declarations>
             <Code Language="csharp">
-                <![CDATA[sealed class $epName$Response
-{
-
-}
+                <![CDATA[sealed record $epName$Response();
 
 sealed class $epName$Endpoint : EndpointWithoutRequest<$epName$Response>
 {
@@ -118,10 +115,7 @@ sealed class $epName$Endpoint : EndpointWithoutRequest<$epName$Response>
                 </Literal>
             </Declarations>
             <Code Language="csharp">
-                <![CDATA[sealed class $epName$Request
-{
-
-}
+                <![CDATA[sealed record $epName$Request();
 
 sealed class $epName$Endpoint : Endpoint<$epName$Request>
 {
@@ -166,15 +160,9 @@ sealed class $epName$Endpoint : Endpoint<$epName$Request>
                 </Literal>
             </Declarations>
             <Code Language="csharp">
-                <![CDATA[sealed class $epName$Request
-{
+                <![CDATA[sealed record $epName$Request();
 
-}
-
-sealed class $epName$Response
-{
-
-}
+sealed record $epName$Response();
 
 sealed class $epName$Endpoint : Endpoint<$epName$Request, $epName$Response>
 {
@@ -302,15 +290,9 @@ sealed class $epName$Endpoint : Endpoint<$epName$Request, $epName$Response>
     }
 }
 
-sealed class $epName$Request
-{
+sealed record $epName$Request();
 
-}
-
-sealed class $epName$Response
-{
-
-}
+sealed record $epName$Response();
 
 sealed class $epName$Validator : Validator<$epName$Request>
 {

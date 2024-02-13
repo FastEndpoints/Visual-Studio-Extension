@@ -1,19 +1,13 @@
 ﻿namespace $fileinputname$;
 
-sealed class Request
-{
-
-}
+sealed record Request();
 
 sealed class Validator : Validator<Request>
 {
-    public Validator()
-    {
-        
-    }
+	public Validator()
+	{
+
+	}
 }
 
-sealed class Response
-{
-    public string Message => "This endpoint hasn't been implemented yet!";
-}
+sealed class Response(string Message = "This endpoint hasn't been implemented yet!");
